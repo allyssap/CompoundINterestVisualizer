@@ -7,7 +7,11 @@
     const compoundfreq = [1,12,26,52,365];
     const time = [1,12,52,365];
 
-    
+    /*
+        Creating 3 sets of slider variables - including the element IDs, and outputs 
+        for down payment(principle), interest rate(rate), and time.
+
+    */
     var slider = document.getElementById("principle");
     var output = document.getElementById("p");
     output.innerHTML = slider.value; // Display the default slider value
@@ -27,8 +31,11 @@
 
     update();
         
-    // Update the current slider value (each time you drag the slider handle)
+    
+    // Update the current slider value (each time the slider handle is released)
     slider.oninput = function() {
+        ///loan amount = 1000 - down payment
+
         output.innerHTML = this.value;
         prin = +output.innerHTML;
         loan = 1000 - prin;
@@ -42,14 +49,13 @@
         i= +output2.innerHTML / 100;
     }
 
-    
     slider3.oninput = function() {
         output3.innerHTML = this.value;
         t = +output3.innerHTML;
     }
 
 
-
+    ///On update()
     function update(){
         var select = document.getElementById('freq');
         var option = select.options[select.selectedIndex];
@@ -63,6 +69,8 @@
     
         intAmount = loan * Math.pow(1+i/compoundfreq[freqIndex],compoundfreq[freqIndex]*(t/time[timeindex])) - loan;  
         
+
+        ///Load google charts
         google.charts.load('current', {packages: ['corechart', 'bar']});
         google.charts.setOnLoadCallback(function() {
             drawBasic(prin,loan,intAmount)
